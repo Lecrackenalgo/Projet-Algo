@@ -75,24 +75,42 @@ def afficher_grille(grille_jeu):
         for case in ligne:
             print(case, end="")
             
-def verif_placmnt_bateaux(c1, c2, grille_pos):
+def verif_placmnt_bateaux(c1, c2, n, grille_pos):
     """Fonction qui vérifie si les 2 coordonnées sont bien sur la même ligne ou même colonne, on ne peut
     pas placer de bateaux en diagonale.
     On ne peut pas non plus placer un bateau sur un bateau deja placé.
     c1 et c2 sont des coordonnées sous la forme [i,j] ou i est l'indice de la ligne et j l'indice de la colonne pour notre liste 2D. 
+    n est la taille du bateau considéré.
     """
     if c1[0] == c2[0] : #On est bien horizontal
-        i = c1[1]
-        while not grille_pos[c1[0]][i]: #On vérifie qu'il n'y a pas de bateau entre les 2 points extrêmes
-            i += 1
-        if i != c2[1]: #On est pas arrivé à la dernière coordonnées donc il y a un bateau 
-            res = False
+        if abs(c1[0]-c2[0]) == n:
+            i = c1[1]
+            while not grille_pos[c1[0]][i]: #On vérifie qu'il n'y a pas de bateau entre les 2 points extrêmes
+                i += 1
+            if i != c2[1]: #On est pas arrivé à la dernière coordonnées donc il y a un bateau 
+                res = False
+                print("Impossible de placer un bateau ici car il y a un autre bateau entre les coordoonées que vous avez saisies")
+            else:
+                res = True
         else:
-            res = True
+            print(f"Le bateau que vous essayez de placer à une taille de {n} or la distance entre les 2 coordonnées que vous avez saisie \
+            est de {abs(c1[0]-c2[0])}")
+            res = False
     else: #On est vertical
         i = c1[0]
-        while not grille_pos[]
-            
+        while not grille_pos[i][c1[0]] :
+            i += 1
+        if abs(c1[0]-c2[0]) == n:
+            if i != c2[0] :
+                print("Impossible de placer un bateau ici car il y a un autre bateau entre les coordoonées que vous avez saisies")
+                res = False
+            else:
+                res = True
+        else:
+            print(f"Le bateau que vous essayez de placer à une taille de {n} or la distance entre les 2 coordonnées que vous avez saisie \
+            est de {abs(c1[1]-c2[1])}")
+            res = False
+    return res
         
             
                 
