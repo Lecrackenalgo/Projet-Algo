@@ -112,7 +112,29 @@ def verif_placmnt_bateaux(c1, c2, n, grille_pos):
             res = False
     return res
         
-            
+    def placement_bateaux(n, l1):
+    
+    """
+    Permet au joueur de placer ses bateaux de taillesentre 2 et 5 dans
+    l'arène verticalement ou horizontalement (en modifiant les valeurs 
+    de la liste contenant l'arène)
+    """
+    #premiere coordonnée
+    a = int(input("coordonnées colonne"))
+    b = int(input("coordonnée ligne"))
+    
+    vertical = bool(input("vertical ou horizontale"))
+    
+    if (vertical):
+        
+        for i in range(a,a+n):
+            l1[a][i] = True
+    else:
+        
+        for i in range(b,b+n):
+            l1[i][b] = True
+        
+        
                 
     
     
