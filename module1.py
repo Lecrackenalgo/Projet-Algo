@@ -91,7 +91,7 @@ def verif_placmnt_bateaux(c1, c2, grille_pos):
             res = True
     else: #On est vertical
         i = c1[0]
-        while not grille
+        while not grille_pos[]
             
         
             
