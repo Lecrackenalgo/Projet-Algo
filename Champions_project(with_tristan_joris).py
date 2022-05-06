@@ -35,8 +35,6 @@ def grille_jeu():
         l1.append([f"{y}  ",".",".",".",".",".",".",".",".",".","."])
     return(l1)
 
-grille_jeu = grille_jeu()
-
 def afficher_grille(grille):
     """
     On veut une grille de la forme:
@@ -68,6 +66,4 @@ nombre_joueurs = nombre_joueurs()
 grille_position_1 = grille_pos(11,False)    #Initialisation des grilles de position
 grille_position_2 = grille_pos(11,False)    #Initialisation des grilles de position
 
-
-if nombre_joueurs == 2:
-    pass
+grille_jeu_1 = grille_jeu()
