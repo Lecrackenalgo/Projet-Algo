@@ -59,6 +59,13 @@ def afficher_grille(grille):
             
 afficher_grille(grille_jeu)
 
+#Définition des variables :
+somme_1 = 17
+somme_2 = 17
+grille_jeu_1 = grille_jeu()
+aff_grille_jeu_1 = afficher_grille(grille_jeu_1)
+grille_jeu_2 = grille_jeu()
+aff_grille_jeu_2 = afficher_grille(grille_jeu_2)
 #PROGRAMME :
 
 nombre_joueurs = nombre_joueurs()
@@ -66,4 +73,11 @@ nombre_joueurs = nombre_joueurs()
 grille_position_1 = grille_pos(11,False)    #Initialisation des grilles de position
 grille_position_2 = grille_pos(11,False)    #Initialisation des grilles de position
 
-grille_jeu_1 = grille_jeu()
+if nombre_joueurs == 2:
+    #Placement des bateaux
+    while somme_1 != 0 or somme != 0:
+        print(f"C'est au tour de joueur 1")
+        aff_grille_jeu_1 = afficher_grille(grille_jeu_1)
+        
+    
+
