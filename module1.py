@@ -112,43 +112,38 @@ def verif_placmnt_bateaux(c1, c2, n, grille_pos):
             res = False
     return res
         
-    def placement_bateaux(n, l1):
+    def placement_bateaux(n, grille_pos):
     
-    """
-    Permet au joueur de placer ses bateaux de taillesentre 2 et 5 dans
-    l'arène verticalement ou horizontalement (en modifiant les valeurs 
-    de la liste contenant l'arène)
-    """
-    #premiere coordonnée
-    a = int(input("coordonnées colonne"))
-    b = int(input("coordonnée ligne"))
-    
-    vertical = bool(input("vertical ou horizontale"))
-    
-    if (vertical):
+        """
+        Permet au joueur de placer ses bateaux de tailles entre 2 et 5 dans
+        l'arène verticalement ou horizontalement (en modifiant les valeurs 
+        de la liste contenant l'arène)
+        """
+        #premiere coordonnée
+        a = int(input("coordonnées colonne:  "))
+        b = int(input("coordonnée ligne:  "))
+        c1 = [a,b]
+
+        vertical = input("vertical ou horizontal (tapez h ou v) :  ")
+        while vertical not in "hv" or len(vertical) > 1 :
+            vertical = input("vertical ou horizontal (tapez h ou v) :  ")
         
-        for i in range(a,a+n):
-            l1[a][i] = True
-    else:
-        
-        for i in range(b,b+n):
-            l1[i][b] = True
-        
-        
-                
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+        if vertical == "v":
+            vertical = True
+        else:
+            vertical = False
+
+        if vertical:
+            c2  = [a, a+n]
+            if verif_placmnt_bateaux(c1, c2, n, grille_pos):
+                for i in range(a,a+n):
+                    grille_pos[a][i] = True
+            else:
+                placement_bateaux(n, grille_pos)
+        else:
+            c2 = [b, b+n]
+            if verif_placmnt_bateaux(c1, c2, n, grille_pos):
+                for i in range(b,b+n):
+                    grille_pos[i][b] = True
+            else:
+                placement_bateaux(n, grille_pos)
