@@ -112,7 +112,7 @@ def verif_placmnt_bateaux(c1, c2, n, grille_pos):
             res = False
     return res
         
-    def placement_bateaux(n, grille_pos):
+def placement_bateaux(n, grille_pos):
     
         """
         Permet au joueur de placer ses bateaux de tailles entre 2 et 5 dans
