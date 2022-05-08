@@ -30,6 +30,11 @@ def init_bateau():
         nb_bat = input("Combien de bateaux par joueur ? (2-6) :  ")
     for loop in range(int(nb_bat)):
         taille_bateau = input(f"Quelle taille pour le bateau numéro {loop} (entre 2 et 5) :  ")
+        while ord(taille_bateau)<47 or ord(taille_bateau)>58 :
+            print("Veuillez rentrer un nombre")
+            taille_bateau = input(f"Quelle taille pour le bateau numéro {loop} (entre 2 et 5) :  ")
+        bateaux.append(taille_bateau)
+    return (bateaux, bateaux)
     
     
 
@@ -151,8 +156,9 @@ def bateau_touche(coord, grille_pos, grille_jeu,nv_vie,somme,joueur):
 #afficher_grille(grille_jeu)
 
 #Définition des variables :
-somme_1 = 17
-somme_2 = 17
+bateaux_1, bateaux_2 = init_bateau()
+somme_1 = sum(bateaux_1)
+somme_2 = sum(bateaux_2)
 grille_jeu_1 = grille_jeu()
 aff_grille_jeu_1 = afficher_grille(grille_jeu_1)
 grille_jeu_2 = grille_jeu()
