@@ -36,7 +36,78 @@ def init_bateau():
         bateaux.append(taille_bateau)
     return (bateaux, bateaux)
     
+def verif_placmnt_bateaux(c1, c2, n, grille_pos):
+    """Fonction qui vérifie si les 2 coordonnées sont bien sur la même ligne ou même colonne, on ne peut
+    pas placer de bateaux en diagonale.
+    On ne peut pas non plus placer un bateau sur un bateau deja placé.
+    c1 et c2 sont des coordonnées sous la forme [i,j] ou i est l'indice de la ligne et j l'indice de la colonne pour notre liste 2D. 
+    n est la taille du bateau considéré.
+    """
+    if c1[0] == c2[0] : #On est bien horizontal
+        if abs(c1[0]-c2[0]) == n:
+            i = c1[1]
+            while not grille_pos[c1[0]][i]: #On vérifie qu'il n'y a pas de bateau entre les 2 points extrêmes
+                i += 1
+            if i != c2[1]: #On est pas arrivé à la dernière coordonnées donc il y a un bateau 
+                res = False
+                print("Impossible de placer un bateau ici car il y a un autre bateau entre les coordoonées que vous avez saisies")
+            else:
+                res = True
+        else:
+            print(f"Le bateau que vous essayez de placer à une taille de {n} or la distance entre les 2 coordonnées que vous avez saisie \
+            est de {abs(c1[0]-c2[0])}")
+            res = False
+    else: #On est vertical
+        i = c1[0]
+        while not grille_pos[i][c1[0]] :
+            i += 1
+        if abs(c1[0]-c2[0]) == n:
+            if i != c2[0] :
+                print("Impossible de placer un bateau ici car il y a un autre bateau entre les coordoonées que vous avez saisies")
+                res = False
+            else:
+                res = True
+        else:
+            print(f"Le bateau que vous essayez de placer à une taille de {n} or la distance entre les 2 coordonnées que vous avez saisie \
+            est de {abs(c1[1]-c2[1])}")
+            res = False
+    return res
+        
+def placement_bateaux(n, grille_pos):
     
+        """
+        Permet au joueur de placer ses bateaux de tailles entre 2 et 5 dans
+        l'arène verticalement ou horizontalement (en modifiant les valeurs 
+        de la liste contenant l'arène)
+        """
+        #premiere coordonnée
+        a = int(input("coordonnées colonne:  "))
+        b = int(input("coordonnée ligne:  "))
+        c1 = [a,b]
+
+        vertical = input("vertical ou horizontal (tapez h ou v) :  ")
+        while vertical not in "hv" or len(vertical) > 1 :
+            vertical = input("vertical ou horizontal (tapez h ou v) :  ")
+        
+        if vertical == "v":
+            vertical = True
+        else:
+            vertical = False
+
+        if vertical:
+            c2  = [a, a+n]
+            if verif_placmnt_bateaux(c1, c2, n, grille_pos):
+                for i in range(a,a+n):
+                    grille_pos[a][i] = True
+            else:
+                placement_bateaux(n, grille_pos)
+        else:
+            c2 = [b, b+n]
+            if verif_placmnt_bateaux(c1, c2, n, grille_pos):
+                for i in range(b,b+n):
+                    grille_pos[i][b] = True
+            else:
+                placement_bateaux(n, grille_pos)    
 
 def grille_pos(n,e):
     """
@@ -172,7 +243,11 @@ grille_position_1 = grille_pos(11,False)    #Initialisation des grilles de posit
 grille_position_2 = grille_pos(11,False)    #Initialisation des grilles de position
 
 if nombre_joueurs == 2:
-    #Placement des bateaux
+    #Placement des bateaux joueur 1 (pas tès optimisé)
+    for x in bateaux_1:
+        placement_bateaux(len(x), grille_position_1)
+    for x in bateaux_2:
+        placement_bateaux(len(x), grille_position_2)
     while somme_1 != 0 or somme != 0:
         print(f"C'est au tour de joueur 1")
         aff_grille_jeu_1 = afficher_grille(grille_jeu_1)
