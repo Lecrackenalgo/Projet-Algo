@@ -11,11 +11,27 @@ def nombre_joueurs():
     Permet au(x) joueur(s) de sélectionner le nombre de participants à la partie
     Ce nombre ne peut-être que 1 ou 2 sinon message d'erreur
     """
-    nb_joueur = int(input("Nombre de joueur(s) : "))
-    while nb_joueur < 1 or nb_joueur > 2:
-        print(f"Vous ne pouvez jouer qu'à 1 ou 2 joueurs")
-        nb_joueur = int(input("Nombre de joueur(s) : "))
-    return nb_joueur
+    nb_joueur = input("Nombre de joueur(s) : ")
+    while nb_joueur < 1 or nb_joueur > 2 or ord(nb_joueur)<47 or ord(nb_joueur)>58: 
+        print(f"Vous ne pouvez jouer qu'à 1 ou 2 joueurs et n'oubliez pas de rentrer un nombre !")
+        nb_joueur = input("Nombre de joueur(s) : ")
+    return int(nb_joueur)
+
+def init_bateau():
+    """
+    Permet au(x) joueur(s) de sélectionner le nombre de bateaux et leurs taille avec lesquels ils jouent.
+    Ces nombres ne peuvent être qu'entre 2 et 6 sinon message d'erreur.
+    Retourne une liste de la forme [taille_bateau1, taille_bateau2, taille_bateau3, ...]
+    """
+    bateaux = []
+    nb_bat = input("Combien de bateaux par joueur ? (2-6) :  ")
+    while  ord(nb_joueur)<47 or ord(nb_joueur)>58:
+        print("Vous devez rentrer un nombre! ")
+        nb_bat = input("Combien de bateaux par joueur ? (2-6) :  ")
+    for loop in range(int(nb_bat)):
+        taille_bateau = input(f"Quelle taille pour le bateau numéro {loop} (entre 2 et 5) :  ")
+    
+    
 
 def grille_pos(n,e):
     """
