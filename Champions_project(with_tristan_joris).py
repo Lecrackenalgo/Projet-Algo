@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed May 11 14:13:43 2022
+
+@author: joris
+"""
+
 def nombre_joueurs():
     """
     Permet au(x) joueur(s) de sélectionner le nombre de participants à la partie
@@ -73,8 +80,9 @@ def placement_bateaux(n, grille_pos):
         de la liste contenant l'arène)
         """
         #premiere coordonnée
-        a = int(input("coordonnées colonne:  "))
-        b = int(input("coordonnée ligne:  "))
+        a1 = (input("coordonnées colonne entre A et H :  "))
+        a = ord(a1) - 64
+        b = int(input("coordonnée ligne entre 1 et 10 :  "))
         c1 = [a,b]
 
         vertical = input("vertical ou horizontal (tapez h ou v) :  ")
