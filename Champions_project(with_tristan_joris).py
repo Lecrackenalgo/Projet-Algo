@@ -1,18 +1,10 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Apr 15 09:27:05 2022
-
-@author: jdorsemain
-"""
-
 def nombre_joueurs():
     """
     Permet au(x) joueur(s) de sélectionner le nombre de participants à la partie
     Ce nombre ne peut-être que 1 ou 2 sinon message d'erreur
     """
     nb_joueur = input("Nombre de joueur(s) : ")
-    while nb_joueur < 1 or nb_joueur > 2 or ord(nb_joueur)<47 or ord(nb_joueur)>58: 
+    while ord(nb_joueur)<47 or ord(nb_joueur)>58: 
         print(f"Vous ne pouvez jouer qu'à 1 ou 2 joueurs et n'oubliez pas de rentrer un nombre !")
         nb_joueur = input("Nombre de joueur(s) : ")
     return int(nb_joueur)
@@ -25,15 +17,15 @@ def init_bateau():
     """
     bateaux = []
     nb_bat = input("Combien de bateaux par joueur ? (2-6) :  ")
-    while  ord(nb_joueur)<47 or ord(nb_joueur)>58:
-        print("Vous devez rentrer un nombre! ")
+    while  ord(nb_bat)<50 or ord(nb_bat)>53:
+        print("Vous devez rentrer un nombre compris entre 2 et 6")
         nb_bat = input("Combien de bateaux par joueur ? (2-6) :  ")
     for loop in range(int(nb_bat)):
-        taille_bateau = input(f"Quelle taille pour le bateau numéro {loop} (entre 2 et 5) :  ")
-        while ord(taille_bateau)<47 or ord(taille_bateau)>58 :
-            print("Veuillez rentrer un nombre")
-            taille_bateau = input(f"Quelle taille pour le bateau numéro {loop} (entre 2 et 5) :  ")
-        bateaux.append(taille_bateau)
+        taille_bateau = input(f"Quelle taille pour le bateau numéro {loop+1} (entre 2 et 5) :  ")
+        while ord(taille_bateau)<50 or ord(taille_bateau)>53 :
+            print("Veuillez rentrer un nombre compris entre 2 et 5")
+            taille_bateau = input(f"Quelle taille pour le bateau numéro {loop+1} (entre 2 et 5) :  ")
+        bateaux.append(int(taille_bateau))
     return (bateaux, bateaux)
     
 def verif_placmnt_bateaux(c1, c2, n, grille_pos):
@@ -245,9 +237,9 @@ grille_position_2 = grille_pos(11,False)    #Initialisation des grilles de posit
 if nombre_joueurs == 2:
     #Placement des bateaux joueur 1 (pas tès optimisé)
     for x in bateaux_1:
-        placement_bateaux(len(x), grille_position_1)
+        placement_bateaux(x, grille_position_1)
     for x in bateaux_2:
-        placement_bateaux(len(x), grille_position_2)
+        placement_bateaux(x, grille_position_2)
     while somme_1 != 0 or somme != 0:
         print(f"C'est au tour de joueur 1")
         aff_grille_jeu_1 = afficher_grille(grille_jeu_1)
@@ -256,4 +248,3 @@ if nombre_joueurs == 2:
             coordonnees_tir = def_coordonnees()
         trad_coord = trad_coordonnees(coordonnees_tir)
         bateau_touche(trad_coord,grille_position_1,grille_jeu_1,5,somme_1,"joueur 1")
-    
