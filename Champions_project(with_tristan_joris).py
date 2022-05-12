@@ -103,7 +103,7 @@ def placement_bateaux(n, grille_pos):
 				placement_bateaux(n, grille_pos)
 		else:
 			c2 = [a, b+n]#Coordonées du bateau en indice
-			print(b, chr(b+n+64))
+			print(a, chr(b+n+64))
 			if verif_placmnt_bateaux(c1, c2, n, grille_pos):
 				for i in range(b,a+n):
 					grille_pos[i][b] = True 
@@ -236,9 +236,9 @@ print("bateaux:  ", bateaux_1, bateaux_2)
 somme_1 = sum(bateaux_1)
 somme_2 = sum(bateaux_2)
 grille_jeu_1 = grille_jeu()
-afficher_grille(grille_jeu_1)
+#aff_grille_jeu_1 = afficher_grille(grille_jeu_1)
 grille_jeu_2 = grille_jeu()
-afficher_grille(grille_jeu_2)
+aff_grille_jeu_2 = afficher_grille(grille_jeu_2)
 
 #PROGRAMME :
 
