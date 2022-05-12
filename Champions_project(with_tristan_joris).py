@@ -51,7 +51,7 @@ def verif_placmnt_bateaux(c1, c2, n, grille_pos):
 			i = c1[1]
 			while i < c2[1] and not grille_pos[c1[0]][i] :
 				i += 1
-			if i != c2[1] +1:
+			if i != c2[1] :
 				print("Vous essayez de placer un bateau trop proche d'un autre bateau.", f"{c1[0]}, {i}")
 				res = False
 			else:
@@ -62,7 +62,7 @@ def verif_placmnt_bateaux(c1, c2, n, grille_pos):
 				print(f"{i}, {c1[1]}, {grille_pos[i][c1[1]]} ")
 				i += 1 
 			if i != c2[0] :
-				print("Vous essayez de placer un bateau trop proche d'un autre bateau.",  f"{i}, {c1[1]} ")
+				print("Vous essayez de placer un bateau trop proche d'un autre bateau.",  f"{i},{c2[0]} ")
 				res = False
 			else:
 				res = True
@@ -113,7 +113,6 @@ def placement_bateaux(n, grille_pos):
 					grille_pos[a-1][i] = True 
 			else:
 				placement_bateaux(n, grille_pos)
-		print(grille_pos)
 
 def grille_pos(n,e):
     """
@@ -158,13 +157,6 @@ def afficher_grille(grille):
             print(f"{case:4}", end="")
     print("\n")
 
-def def_coordonnees():
-    """
-    Renseignement des coordonnees sous forme de chaîne de caractères
-    """
-    coordonnees = input("Renseignez vos coordonnées de tir : ")
-    return coordonnees
-
 def trad_coordonnees(coordonnees):
     """
     Convertit des coordonnées sous forme de chaîne de caractère donnés en paramètre en liste
@@ -185,24 +177,26 @@ def verif_coord(coord, grille_j):
     if len(coord) <= 3:
         try:
             ligne = int(coord[1:])
+            res = True
         except ValueError:
             print("La coordonnée correspondant à la ligne doit être un chiffre\n", ex)
             res = False
-        if ligne <= 10 and ligne > 0:
-            if ord(coord[0]) >= 65 and ord(coord[0])<= 74:
-                coords = def_coordonnees()
-                print(coords)
-                if grille_j[coords[0]][coords[1]] == '.':
-                    res = True
+        if res:
+            if ligne <= 10 and ligne > 0:
+                if ord(coord[0]) >= 65 and ord(coord[0])<= 74:
+                    coord = trad_coordonnees(coord)
+                    print(coord)
+                    if grille_j[coord[0]][coord[1]] == '.':
+                        res = True
+                    else:
+                        print("Vous avez déjà tiré dans cette case. Sah vise mieux !")
+                        res = False
                 else:
-                    print("Vous avez déjà tiré dans cette case. Sah vise mieux !")
+                    print("La coordonnée correspondant à la colonne doit être en majuscule entre A et J (inclus).\n", ex)
                     res = False
             else:
-                print("La coordonnée correspondant à la colonne doit être en majuscule entre A et J (inclus).\n", ex)
+                print("Vous avez rentré un numéro de ligne qui ne rentre pas dans le tableau.\n", ex)
                 res = False
-        else:
-            print("Vous avez rentré un numéro de ligne qui ne rentre pas dans le tableau.\n", ex)
-            res = False
     else:
         print("Vous avez rentré des coordonnées trop longues !\n", ex)
         res = False
@@ -259,17 +253,17 @@ if nombre_joueurs == 2:
 		print("Le joueur 2 va maintenant placer ses bateaux. Au joueur 1 de détourner le regard ! ")
 		placement_bateaux(x, grille_position_2)
 	while somme_1 != 0 or somme != 0:
-		tour += 1
 		if tour %2 == 0:
 			print(f"C'est au tour de joueur 1\n")
 		else:
 			print(f"C'est au tour de joueur 2\n")
 		aff_grille_jeu_1 = afficher_grille(grille_jeu_1)
-		coordonnees_tir = def_coordonnees()
+		coordonnees_tir = input("Rentrez vos coordonnées de tir:  ")
 		while not verif_coord(coordonnees_tir,grille_jeu_1):
-			coordonnees_tir = def_coordonnees()
+			coordonnees_tir = input("Rentrez vos coordonnées de tir:  ")
+		print("C'est bon les coordonnées sont valide on va pouvoir tirer.")
 		trad_coord = trad_coordonnees(coordonnees_tir)
 		bateau_touche(trad_coord,grille_position_1,grille_jeu_1,5,somme_1,"joueur 1")
 		somme_1 = sum(bateaux_1)
 		somme_2 = sum(bateaux_2)
- 
+		tour += 1
