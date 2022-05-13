@@ -1,10 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Wed May 11 14:13:43 2022
-
-@author: joris
-"""
-
 def nombre_joueurs():
     """
     Permet au(x) joueur(s) de sélectionner le nombre de participants à la partie
@@ -24,12 +18,12 @@ def init_bateau():
     """
     bateaux = []
     nb_bat = input("Combien de bateaux par joueur ? (2-6) :  ")
-    while  ord(nb_bat)<50 or ord(nb_bat)>54 or len(nb_bat) != 1:
+    while  len(nb_bat) != 1 or ord(nb_bat)<50 or ord(nb_bat)>54:
         print("Vous devez rentrer un nombre compris entre 2 et 6")
         nb_bat = input("Combien de bateaux par joueur ? (2-6) :  ")
     for loop in range(int(nb_bat)):
         taille_bateau = input(f"Quelle taille pour le bateau numéro {loop+1} (entre 2 et 5) :  ")
-        while ord(taille_bateau)<50 or ord(taille_bateau)>53 or len(taille_bateau) != 1 :
+        while len(taille_bateau) != 1 or ord(taille_bateau)<50 or ord(taille_bateau)>53 :
             print("Veuillez rentrer un nombre compris entre 2 et 5")
             taille_bateau = input(f"Quelle taille pour le bateau numéro {loop+1} (entre 2 et 5) :  ")
         bateaux.append(int(taille_bateau))
