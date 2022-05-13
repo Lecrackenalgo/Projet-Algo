@@ -1,10 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Wed May 11 14:13:43 2022
-
-@author: joris
-"""
-
 def nombre_joueurs():
     """
     Permet au(x) joueur(s) de sélectionner le nombre de participants à la partie
@@ -24,12 +18,12 @@ def init_bateau():
     """
     bateaux = []
     nb_bat = input("Combien de bateaux par joueur ? (2-6) :  ")
-    while  ord(nb_bat)<50 or ord(nb_bat)>54 or len(nb_bat) != 1:
+    while  len(nb_bat) != 1 or ord(nb_bat)<50 or ord(nb_bat)>54:
         print("Vous devez rentrer un nombre compris entre 2 et 6")
         nb_bat = input("Combien de bateaux par joueur ? (2-6) :  ")
     for loop in range(int(nb_bat)):
         taille_bateau = input(f"Quelle taille pour le bateau numéro {loop+1} (entre 2 et 5) :  ")
-        while ord(taille_bateau)<50 or ord(taille_bateau)>53 or len(taille_bateau) != 1 :
+        while len(taille_bateau) != 1 or ord(taille_bateau)<50 or ord(taille_bateau)>53 :
             print("Veuillez rentrer un nombre compris entre 2 et 5")
             taille_bateau = input(f"Quelle taille pour le bateau numéro {loop+1} (entre 2 et 5) :  ")
         bateaux.append(int(taille_bateau))
@@ -162,7 +156,7 @@ def trad_coordonnees(coordonnees):
     Convertit des coordonnées sous forme de chaîne de caractère donnés en paramètre en liste
     """
     nouvelles_coordonnees = []
-    nouvelles_coordonnees.append(int(coordonnees[1])) #Position sur les lignes
+    nouvelles_coordonnees.append(int(coordonnees[1:])) #Position sur les lignes
     nouvelles_coordonnees.append(ord(coordonnees[0]) - 64) #Position sur les colonnes
     return nouvelles_coordonnees
 
@@ -209,7 +203,7 @@ def bateau_touche(coord, grille_pos, grille_jeu,nv_vie,somme,joueur):
     """
     if grille_pos[coord[0]][coord[1]]:  #Bateau touché
         grille_jeu[coord[0]][coord[1]] = "X"
-        aff_grille_jeu = afficher_grille(grille_jeu)
+        afficher_grille(grille_jeu)
         nv_vie -= 1
         somme -= 1
         if nv_vie == 0:
@@ -219,11 +213,17 @@ def bateau_touche(coord, grille_pos, grille_jeu,nv_vie,somme,joueur):
         print(f"{joueur} joue à nouveau")
     else:   #Tir dans l'eau
          grille_jeu[coord[0]][coord[1]] = "O"
-         aff_grille_jeu = afficher_grille(grille_jeu)
+         afficher_grille(grille_jeu)
          print("Plouf, c'est raté")
-         print(f"C'est au tour de l'adversaire")
+         print("C'est au tour de l'adversaire")
          
-
+def affichage_bateaux(grille_pos):
+    grille_aff = grille_jeu()
+    for i in range(len(grille_pos)):
+        for j in range(len(grille_pos[i])):
+            if grille_pos[i][j] :
+                grille_aff[i+1][j+1] = 'B'
+    afficher_grille(grille_aff)
          
 #afficher_grille(grille_jeu)
 
@@ -244,26 +244,27 @@ nombre_joueurs = 2 #nombre_joueurs()
 grille_position_1 = grille_pos(11,False)    #Initialisation des grilles de position
 grille_position_2 = grille_pos(11,False)    #Initialisation des grilles de position
 
-if nombre_joueurs == 2:
-	#Placement des bateaux joueur 1 (pas tès optimisé)
-	for x in bateaux_1:
-		print("Le joueur 1 va placer ses bateaux. Joueur 2 fermez les yeux pour par de triche ;-)")
-		placement_bateaux(x, grille_position_1)
-	for x in bateaux_2:
-		print("Le joueur 2 va maintenant placer ses bateaux. Au joueur 1 de détourner le regard ! ")
-		placement_bateaux(x, grille_position_2)
-	while somme_1 != 0 or somme != 0:
-		if tour %2 == 0:
-			print(f"C'est au tour de joueur 1\n")
-		else:
-			print(f"C'est au tour de joueur 2\n")
-		aff_grille_jeu_1 = afficher_grille(grille_jeu_1)
-		coordonnees_tir = input("Rentrez vos coordonnées de tir:  ")
-		while not verif_coord(coordonnees_tir,grille_jeu_1):
-			coordonnees_tir = input("Rentrez vos coordonnées de tir:  ")
-		print("C'est bon les coordonnées sont valide on va pouvoir tirer.")
-		trad_coord = trad_coordonnees(coordonnees_tir)
-		bateau_touche(trad_coord,grille_position_1,grille_jeu_1,5,somme_1,"joueur 1")
-		somme_1 = sum(bateaux_1)
-		somme_2 = sum(bateaux_2)
-		tour += 1
+if nombre_joueurs == 2:#Placement des bateaux joueur 1 (pas tès optimisé)
+    for x in bateaux_1:    
+        print("Le joueur 1 va placer ses bateaux. Joueur 2 fermez les yeux pour par de triche ;-)")
+        placement_bateaux(x, grille_position_1)
+        affichage_bateaux(grille_position_1)
+    for x in bateaux_2:
+        print("Le joueur 2 va maintenant placer ses bateaux. Au joueur 1 de détourner le regard ! ")
+        placement_bateaux(x, grille_position_2)
+        affichage_bateaux(grille_position_2)
+    while somme_1 != 0 or somme_2 != 0:
+        if tour %2 == 0:
+            print("C'est au tour de joueur 1\n")
+        else:
+            print("C'est au tour de joueur 2\n")
+        aff_grille_jeu_1 = afficher_grille(grille_jeu_1)
+        coordonnees_tir = input("Rentrez vos coordonnées de tir:  ")
+        while not verif_coord(coordonnees_tir,grille_jeu_1):
+            coordonnees_tir = input("Rentrez vos coordonnées de tir:  ")
+        print("C'est bon les coordonnées sont valide on va pouvoir tirer.")
+        trad_coord = trad_coordonnees(coordonnees_tir)
+        bateau_touche(trad_coord,grille_position_1,grille_jeu_1,5,somme_1,"joueur 1")
+        somme_1 = sum(bateaux_1)
+        somme_2 = sum(bateaux_2)
+        tour += 1
