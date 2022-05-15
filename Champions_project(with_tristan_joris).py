@@ -94,17 +94,17 @@ def placement_bateaux(n, grille_pos):
 		if vertical:
 			c2  = [a+n, b] #Coordonées du bateau en chiffres
 			print(a+n, chr(b+64))
-			if verif_placmnt_bateaux([a-1, b-1], [a+n-1, b-1], n, grille_pos):
-				for i in range(a-1,a+n-1):
-					grille_pos[i][b-1] = True
+			if verif_placmnt_bateaux([a, b], [a+n, b], n, grille_pos):
+				for i in range(a,a+n):
+					grille_pos[i][b] = True
 			else:
 				placement_bateaux(n, grille_pos)
 		else:
 			c2 = [a, b+n]#Coordonées du bateau en indice
 			print(a, chr(b+n+64))
-			if verif_placmnt_bateaux([a-1,b-1], [a-1, b+n-1] , n, grille_pos):
-				for i in range(b-1,a+n-1):
-					grille_pos[a-1][i] = True 
+			if verif_placmnt_bateaux([a,b], [a, b+n] , n, grille_pos):
+				for i in range(b,a+n):
+					grille_pos[a][i] = True 
 			else:
 				placement_bateaux(n, grille_pos)
 
@@ -222,7 +222,7 @@ def affichage_bateaux(grille_pos):
     for i in range(len(grille_pos)):
         for j in range(len(grille_pos[i])):
             if grille_pos[i][j] :
-                grille_aff[i+1][j+1] = 'B'
+                grille_aff[i][j] = 'B'
     afficher_grille(grille_aff)
          
 #afficher_grille(grille_jeu)
