@@ -1,4 +1,17 @@
 # -*- coding: utf-8 -*-
+def test_victoire(grille_pos, joueur):
+    """
+    Parcours la grille de position donnée en entrée et vérifie s'il y a encore des bateaux en jeu.
+    S'il n'y a plus de bateau sur la grille, Alors le joueur à gagné
+    """
+    presence_bateau = False
+    for k in range (len(grille_pos)):
+        for i in range (len(grille_pos)):
+            if grille_pos[k][i] != 0:
+                presence_bateau = True
+    if not presence_bateau:
+        print(f"Le joueur {joueur} remporte la partie")
+	
 def vie_bateau(grille_pos, tir_y, tir_x):
     """
     Compte le nombre de cellules contenant un morceau du bateau visé avec les coordonnées.
