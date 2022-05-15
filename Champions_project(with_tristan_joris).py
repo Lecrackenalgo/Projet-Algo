@@ -1,4 +1,22 @@
 # -*- coding: utf-8 -*-
+def vie_bateau(grille_pos, tir_y, tir_x):
+    """
+    Compte le nombre de cellules contenant un morceau du bateau visé avec les coordonnées.
+    Si le numéro n'est plus représenté, afficher "touché, coulé"
+    Renvoie le nombre de vie restant pour le bateau
+    """
+    coule = True
+    bateau = grille_pos[tir_y][tir_x]
+    grille_pos[tir_y][tir_x] = 0
+    for k in range (len(grille_pos)):
+        for i in range (len(grille_pos)):
+            if grille_pos[k][i] == bateau:
+                coule = False
+    if not coule:
+        print("Touché !")
+    else:
+        print("Touché ! Coulé !")
+	
 def nombre_joueurs():
     """
     Permet au(x) joueur(s) de sélectionner le nombre de participants à la partie
