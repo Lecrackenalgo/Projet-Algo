@@ -46,32 +46,32 @@ def verif_placmnt_bateaux(c1, c2, n, grille_pos):
 			while i < c2[1] and not grille_pos[c1[0]][i] :
 				i += 1
 			if i != c2[1] :
-				print("Vous essayez de placer un bateau trop proche d'un autre bateau.", f"{c1[0]}, {i}")
+				print("Vous essayez de placer un bateau trop proche d'un autre bateau.")
 				res = False
 			else:
 				res = True
 		else: #Normalement on est forcément vertical
 			i = c1[0]
 			while i < c2[0] and not grille_pos[i][c1[1]] :
-				print(f"{i}, {c1[1]}, {grille_pos[i][c1[1]]} ")
 				i += 1 
 			if i != c2[0] :
-				print("Vous essayez de placer un bateau trop proche d'un autre bateau.",  f"{i},{c2[0]} ")
+				print("Vous essayez de placer un bateau trop proche d'un autre bateau.")
 				res = False
 			else:
 				res = True
 		return res
 			
         
-def placement_bateaux(n, grille_pos):
+def placement_bateaux(n,num_bat,grille_pos):
 		"""
-		Permet au joueur de placer ses bateaux de tailles entre 2 et 5 dans
+		Permet au joueur de placer ses bateaux de taille n dans
 		l'arène verticalement ou horizontalement (en modifiant les valeurs 
 		de la liste contenant l'arène)
+        num_bat est une variable qui continent le numéro du bateau que l'on doit placer.
 		"""
 		#premiere coordonnée
 		a = input("coordonnée ligne entre 1 et 10 :  ") 
-		if a != '10' : #10 est le seul cas où on ne peut pasutiliser la fonction ord car '10' fait 2 caractères donc on traite ce cas à part
+		if a != '10' : #10 est le seul cas où on ne peut pas utiliser la fonction ord car '10' fait 2 caractères donc on traite ce cas à part
 			while len(a) != (1 or 2) or ord(a)<47 or ord(a)> 58 :
 				print("Rentrez un chiffre entre 1 et 10 !")
 				a = input("coordonnée ligne entre 1 et 10 :  ")
@@ -80,7 +80,6 @@ def placement_bateaux(n, grille_pos):
 		while len(b) != 1 or ord(b)<65 or ord(b)> 74 :
 			print("Rentrez une lettre majuscule entre A et J")
 			b = (input("coordonnées colonne entre A et J :  "))
-		print(a,b)
 		b = ord(b) - 64
 		c1 = [a,b] #Coordonnée du bateau en indices
 		vertical = input("vertical ou horizontal (tapez h ou v) :  ")
@@ -96,17 +95,18 @@ def placement_bateaux(n, grille_pos):
 			print(a+n, chr(b+64))
 			if verif_placmnt_bateaux([a, b], [a+n, b], n, grille_pos):
 				for i in range(a,a+n):
-					grille_pos[i][b] = True
+					grille_pos[i][b] = num_bat
 			else:
 				placement_bateaux(n, grille_pos)
 		else:
 			c2 = [a, b+n]#Coordonées du bateau en indice
 			print(a, chr(b+n+64))
 			if verif_placmnt_bateaux([a,b], [a, b+n] , n, grille_pos):
-				for i in range(b,a+n):
-					grille_pos[a][i] = True 
+				for i in range(b,b+n):
+					grille_pos[a][i] = num_bat
 			else:
 				placement_bateaux(n, grille_pos)
+		print(grille_pos)
 
 def grille_pos(n,e):
     """
@@ -229,30 +229,29 @@ def affichage_bateaux(grille_pos):
 
 #Définition des variables :
 bateaux_1, bateaux_2 = init_bateau()
+bateaux = [bateaux_1, bateaux_2]
 tour = 0 #variable que l'on incremente à chaque fois qu'on change de joueur actif
 somme_1 = sum(bateaux_1)
 somme_2 = sum(bateaux_2)
+sommes = [somme_1, somme_2]
 grille_jeu_1 = grille_jeu()
-#aff_grille_jeu_1 = afficher_grille(grille_jeu_1)
 grille_jeu_2 = grille_jeu()
-aff_grille_jeu_2 = afficher_grille(grille_jeu_2)
+grilles_jeux = [grille_jeu_1, grille_jeu_2]
 
 #PROGRAMME :
 
 nombre_joueurs = 2 #nombre_joueurs()
 
-grille_position_1 = grille_pos(11,False)    #Initialisation des grilles de position
-grille_position_2 = grille_pos(11,False)    #Initialisation des grilles de position
+grille_position_1 = grille_pos(11,0)    #Initialisation des grilles de position
+grille_position_2 = grille_pos(11,0)    #Initialisation des grilles de position
+grilles_pos = [grille_position_1, grille_position_2]
 
-if nombre_joueurs == 2:#Placement des bateaux joueur 1 (pas tès optimisé)
-    for x in bateaux_1:    
-        print("Le joueur 1 va placer ses bateaux. Joueur 2 fermez les yeux pour par de triche ;-)")
-        placement_bateaux(x, grille_position_1)
-        affichage_bateaux(grille_position_1)
-    for x in bateaux_2:
-        print("Le joueur 2 va maintenant placer ses bateaux. Au joueur 1 de détourner le regard ! ")
-        placement_bateaux(x, grille_position_2)
-        affichage_bateaux(grille_position_2)
+if nombre_joueurs == 2:#Placement des bateaux ( optimisé)
+    for i in range(2):
+        print(f"Le joueur {i+1} va placer ses bateaux. Joueur {2-i} ne regardez pas !")
+        for j in range(len(bateaux[i])):
+            placement_bateaux(bateaux[i][j], j+1, grilles_pos[i])
+        affichage_bateaux(grilles_pos[i])
     while somme_1 != 0 or somme_2 != 0:
         if tour %2 == 0:
             print("C'est au tour de joueur 1\n")
@@ -264,7 +263,7 @@ if nombre_joueurs == 2:#Placement des bateaux joueur 1 (pas tès optimisé)
             coordonnees_tir = input("Rentrez vos coordonnées de tir:  ")
         print("C'est bon les coordonnées sont valide on va pouvoir tirer.")
         trad_coord = trad_coordonnees(coordonnees_tir)
-        bateau_touche(trad_coord,grille_position_1,grille_jeu_1,5,somme_1,"joueur 1")
+        bateau_touche(trad_coord,grille_position[tour%2],grilles_jeu[tour%2],5,sommes[tour%2],f"joueur {tour%2 +1}")
         somme_1 = sum(bateaux_1)
         somme_2 = sum(bateaux_2)
         tour += 1
