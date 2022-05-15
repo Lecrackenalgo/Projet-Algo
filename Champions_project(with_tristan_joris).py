@@ -97,7 +97,7 @@ def placement_bateaux(n,num_bat,grille_pos):
 				for i in range(a,a+n):
 					grille_pos[i][b] = num_bat
 			else:
-				placement_bateaux(n, grille_pos)
+				placement_bateaux(n, num_bat, grille_pos)
 		else:
 			c2 = [a, b+n]#Coordonées du bateau en indice
 			print(a, chr(b+n+64))
@@ -105,7 +105,7 @@ def placement_bateaux(n,num_bat,grille_pos):
 				for i in range(b,b+n):
 					grille_pos[a][i] = num_bat
 			else:
-				placement_bateaux(n, grille_pos)
+				placement_bateaux(n, num_bat, grille_pos)
 		print(grille_pos)
 
 def grille_pos(n,e):
