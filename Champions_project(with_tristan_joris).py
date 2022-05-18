@@ -2,43 +2,14 @@
 def test_victoire(grille_pos):
     """
     Parcours la grille de position donnée en entrée et vérifie s'il y a encore des bateaux en jeu.
-    S'il n'y a plus de bateau sur la grille, Alors le joueur à gagné
+    S'il n'y a plus de bateaux sur la grille. Alors un joueur a gagné.
     """
     presence_bateau = False
     for k in range (len(grille_pos)):
         for i in range (len(grille_pos)):
             if grille_pos[k][i] != 0:
                 presence_bateau = True
-    return presence_bateau
-
-def vie_bateau(grille_pos, tir_y, tir_x):
-    """
-    Compte le nombre de cellules contenant un morceau du bateau visé avec les coordonnées.
-    Si le numéro n'est plus représenté, afficher "touché, coulé"
-    Renvoie le nombre de vie restant pour le bateau
-    """
-    coule = True
-    bateau = grille_pos[tir_y][tir_x]
-    grille_pos[tir_y][tir_x] = 0
-    for k in range (len(grille_pos)):
-        for i in range (len(grille_pos)):
-            if grille_pos[k][i] == bateau:
-                coule = False
-    if not coule:
-        print("Touché !")
-    else:
-        print("Touché ! Coulé !")
-	
-def nombre_joueurs():
-    """
-    Permet au(x) joueur(s) de sélectionner le nombre de participants à la partie
-    Ce nombre ne peut-être que 1 ou 2 sinon message d'erreur
-    """
-    nb_joueur = input("Nombre de joueur(s) : ")
-    while ord(nb_joueur)<49 or ord(nb_joueur)>50: 
-        print("Vous ne pouvez jouer qu'à 1 ou 2 joueurs et n'oubliez pas de rentrer un nombre !")
-        nb_joueur = input("Nombre de joueur(s) : ")
-    return int(nb_joueur)
+    return presence_bateau	
 
 def init_bateau():
     """
@@ -65,6 +36,7 @@ def verif_placmnt_bateaux(c1, c2, n, grille_pos):
 	On ne peut pas non plus placer un bateau sur un bateau deja placé.
 	c1 et c2 sont des coordonnées sous la forme [i,j] ou i est l'indice de la ligne et j l'indice de la colonne pour notre liste 2D. 
 	n est la taille du bateau considéré.
+    grille_pos est la grille des positions pour vérifier la validité des coordonnées.
 	"""
 	if c2[0] > 10 or c2[1] > 10 :
 		print("Vous essayez de placer un bateau trop près du bord.")
@@ -99,7 +71,6 @@ def placement_bateaux(n,num_bat,grille_pos):
 		de la liste contenant l'arène)
         num_bat est une variable qui continent le numéro du bateau que l'on doit placer.
 		"""
-		#premiere coordonnée
 		a = input("coordonnée ligne entre 1 et 10 :  ") 
 		if a != '10' : #10 est le seul cas où on ne peut pas utiliser la fonction ord car '10' fait 2 caractères donc on traite ce cas à part
 			while len(a) != (1 or 2) or ord(a)<47 or ord(a)> 58 :
@@ -111,7 +82,7 @@ def placement_bateaux(n,num_bat,grille_pos):
 			print("Rentrez une lettre majuscule entre A et J")
 			b = (input("coordonnées colonne entre A et J :  "))
 		b = ord(b) - 64
-		c1 = [a,b] #Coordonnée du bateau en indices
+		c1 = [a,b] #Coordonnée du bateau en indices uniquement à titre indicatif
 		vertical = input("vertical ou horizontal (tapez h ou v) :  ")
 		while vertical not in "hv" or len(vertical) != 1 :
 			vertical = input("vertical ou horizontal (tapez h ou v) :  ")
@@ -121,22 +92,19 @@ def placement_bateaux(n,num_bat,grille_pos):
 			vertical = False
 
 		if vertical:
-			c2  = [a+n, b] #Coordonées du bateau en chiffres
-			print(a+n, chr(b+64))
+			c2  = [a+n, b] #Coordonées du bateau en chiffres uniquement à titre indicatif
 			if verif_placmnt_bateaux([a, b], [a+n, b], n, grille_pos):
 				for i in range(a,a+n):
 					grille_pos[i][b] = num_bat
 			else:
 				placement_bateaux(n, num_bat, grille_pos)
 		else:
-			c2 = [a, b+n]#Coordonées du bateau en indice
-			print(a, chr(b+n+64))
+			c2 = [a, b+n]#Coordonées du bateau en indice uniquement à titre indicatif
 			if verif_placmnt_bateaux([a,b], [a, b+n] , n, grille_pos):
 				for i in range(b,b+n):
 					grille_pos[a][i] = num_bat
 			else:
 				placement_bateaux(n, num_bat, grille_pos)
-		print(grille_pos)
 
 def grille_pos(n,e):
     """
@@ -149,6 +117,11 @@ def grille_pos(n,e):
     return grille
 
 def grille_jeu():
+    """
+    Génère la grille de jeu:
+    Une grille 11 par 11 ou la première ligne et colonne forment le repère des coordonnées.
+    Retourne la grille sous forme de liste.
+    """
     l1 = []
     l2 = ["   ", "A","B", "C", "D", "E", "F", "G", "H", "I", "J"]
     l1.append(l2)
@@ -160,7 +133,7 @@ def grille_jeu():
 
 def afficher_grille(grille):
     """
-    On veut une grille de la forme:
+    On veut afficher notre grille de la forme:
      ABCDEFGHIJ
     1..........
     2..X.......
@@ -184,6 +157,7 @@ def afficher_grille(grille):
 def trad_coordonnees(coordonnees):
     """
     Convertit des coordonnées sous forme de chaîne de caractère donnés en paramètre en liste
+    de la forme [chiffre_ligne, chiffre_colonne]
     """
     nouvelles_coordonnees = []
     nouvelles_coordonnees.append(int(coordonnees[1:])) #Position sur les lignes
@@ -226,20 +200,41 @@ def verif_coord(coord, grille_j):
         res = False
     return res
 
-def bateau_touche(coord, grille_pos, grille_jeu,nv_vie,joueur):
+def vie_bateau(grille_pos, tir_y, tir_x):
+    """
+    Compte le nombre de cellules contenant un morceau du bateau visé avec les coordonnées.
+    Si le numéro n'est plus représenté, afficher "touché, coulé".
+    """
+    coule = True
+    bateau = grille_pos[tir_y][tir_x]
+    grille_pos[tir_y][tir_x] = 0 #On modifie la grille en retirant la case du bateau qui a été touchée
+    for k in range (len(grille_pos)):
+        for i in range (len(grille_pos)):
+            if grille_pos[k][i] == bateau:
+                coule = False
+    if not coule:
+        print("Touché !")
+    else:
+        print("Touché ! Coulé !")
+
+def bateau_touche(coord, grille_pos, grille_jeu,joueur):
     """
     Cherche si les coordonnées renseignées en paramètre correspondent à la position d'un bâteau
     Si un bateau est touché, indiqué la touche sur la grille de jeu, réduire de 1 la vie du bâteau et la somme
+    Retourne True si on a touché un bateau, False sinon.
     """
     if grille_pos[coord[0]][coord[1]]:  #Bateau touché
         grille_jeu[coord[0]][coord[1]] = "X"
         afficher_grille(grille_jeu)
         vie_bateau(grille_pos, coord[0], coord[1])
+        res = True
     else:   #Tir dans l'eau
          grille_jeu[coord[0]][coord[1]] = "O"
          afficher_grille(grille_jeu)
          print("Plouf, c'est raté")
          print("C'est au tour de l'adversaire")
+         res = False
+    return res
          
 def affichage_bateaux(grille_pos):
     grille_aff = grille_jeu()
@@ -279,14 +274,20 @@ if nombre_joueurs == 2:#Placement des bateaux ( optimisé)
             print("C'est au tour de joueur 1\n")
         else:
             print("C'est au tour de joueur 2\n")
-        aff_grille_jeu_1 = afficher_grille(grilles_jeux[tour%2])
+        afficher_grille(grilles_jeux[tour%2])
         coordonnees_tir = input("Rentrez vos coordonnées de tir:  ")
-        while not verif_coord(coordonnees_tir,grille_jeu_1):
+        while not verif_coord(coordonnees_tir,grilles_jeux[tour%2]):
             coordonnees_tir = input("Rentrez vos coordonnées de tir:  ")
         print("C'est bon les coordonnées sont valide on va pouvoir tirer.")
         trad_coord = trad_coordonnees(coordonnees_tir)
-        bateau_touche(trad_coord,grilles_pos[tour%2],grilles_jeux[tour%2],5,f"joueur {tour%2 +1}")
-        presence_bateau = test_victoire(grilles_pos[tour%2])
-        if presence_bateau:
-            tour += 1
+        while bateau_touche(trad_coord,grilles_pos[(tour+1)%2],grilles_jeux[tour%2],f"joueur {tour%2 +1}") and presence_bateau :
+            print(f"Joueur {tour%2 +1} vous pouvez rejouer !")
+            afficher_grille(grilles_jeux[tour%2])
+            coordonnees_tir = input("Rentrez vos coordonnées de tir:  ")
+            while not verif_coord(coordonnees_tir,grilles_jeux[tour%2]):
+                coordonnees_tir = input("Rentrez vos coordonnées de tir:  ")
+            print("C'est bon les coordonnées sont valide on va pouvoir tirer.")
+            trad_coord = trad_coordonnees(coordonnees_tir)
+            presence_bateau = test_victoire(grilles_pos[(tour+1)%2]) # on regarde si il reste des bateaux dans la grille de l'adversaire
+        tour += 1
     print("FIN DE PARTIE")
